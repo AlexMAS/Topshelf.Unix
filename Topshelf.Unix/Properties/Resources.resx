@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CantExecuteStage" xml:space="preserve">
+    <value>Cannot execute stage: '{0}'.</value>
+  </data>
+  <data name="CantRegisterServiceFile" xml:space="preserve">
+    <value>Cannot register service file '{0}': '{1}'.</value>
+  </data>
+  <data name="CantRetrieveFileStatus" xml:space="preserve">
+    <value>Cannot retrieve file status: '{0}'.</value>
+  </data>
+  <data name="CantRollbackStage" xml:space="preserve">
+    <value>Cannot rollback stage: '{0}'.</value>
+  </data>
+  <data name="CantSetFileAsExecutable" xml:space="preserve">
+    <value>Cannot set file as executable: '{0}'.</value>
+  </data>
+  <data name="CantStartService" xml:space="preserve">
+    <value>Cannot start service '{0}': '{1}'.</value>
+  </data>
+  <data name="CantStopService" xml:space="preserve">
+    <value>Cannot stop service '{0}': '{1}'.</value>
+  </data>
+  <data name="CantUnregisterServiceFile" xml:space="preserve">
+    <value>Cannot unregister service file '{0}': '{1}'.</value>
+  </data>
+  <data name="CreateServiceFileStage" xml:space="preserve">
+    <value>Creating service file</value>
+  </data>
+  <data name="ExecutingRollbackTransactionFailed" xml:space="preserve">
+    <value>Executing rollback transaction failed.</value>
+  </data>
+  <data name="ExecutingStageIsCompletedWithErrors" xml:space="preserve">
+    <value>Executing stage '{0}' is completed with errors: '{1}'.</value>
+  </data>
+  <data name="ExecutingStageIsStarted" xml:space="preserve">
+    <value>Executing stage '{0}' is started.</value>
+  </data>
+  <data name="ExecutingStageIsSuccessfullyCompleted" xml:space="preserve">
+    <value>Executing stage '{0}' is successfully completed.</value>
+  </data>
+  <data name="ExecutingTransactionFailed" xml:space="preserve">
+    <value>Executing transaction failed.</value>
+  </data>
+  <data name="InstallHostSettingsWereNotDefined" xml:space="preserve">
+    <value>InstallHostSettings were not defined.</value>
+  </data>
+  <data name="InstallingServiceFailed" xml:space="preserve">
+    <value>Installing service '{0}' is completed with errors.</value>
+  </data>
+  <data name="InstallingServiceIsCompletedWithErrors" xml:space="preserve">
+    <value>Installing service '{0}' is completed with errors: '{1}'.</value>
+  </data>
+  <data name="InstallingServiceIsStarted" xml:space="preserve">
+    <value>Installing service '{0}' is started.</value>
+  </data>
+  <data name="InstallingServiceIsSuccessfullyCompleted" xml:space="preserve">
+    <value>Installing service '{0}' is successfully completed.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LinuxServiceScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\runtime\linux\linuxservicescript.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="RegisterServiceFileStage" xml:space="preserve">
+    <value>Registering service file</value>
+  </data>
+  <data name="RollbackStageIsCompletedWithErrors" xml:space="preserve">
+    <value>Rollback stage '{0}' is completed with errors: '{1}'.</value>
+  </data>
+  <data name="RollbackStageIsStarted" xml:space="preserve">
+    <value>Rollback stage '{0}' is started.</value>
+  </data>
+  <data name="RollbackStageIsSuccessfullyCompleted" xml:space="preserve">
+    <value>Rollback stage '{0}' is successfully completed.</value>
+  </data>
+  <data name="ServiceDidntStartSuccessfully" xml:space="preserve">
+    <value>Service '{0}' did not start successfully (returned false).</value>
+  </data>
+  <data name="ServiceDidntStopSuccessfully" xml:space="preserve">
+    <value>Service '{0}' did not stop successfully (returned false).</value>
+  </data>
+  <data name="ServiceHasntInstalled" xml:space="preserve">
+    <value>Service '{0}' has not installed.</value>
+  </data>
+  <data name="ServiceMustBeExecutableFile" xml:space="preserve">
+    <value>Service must be executable file.</value>
+  </data>
+  <data name="ServiceStarted" xml:space="preserve">
+    <value>Service '{0}' started.</value>
+  </data>
+  <data name="ServiceStopped" xml:space="preserve">
+    <value>Service '{0}' stopped.</value>
+  </data>
+  <data name="ServiceStopRequested" xml:space="preserve">
+    <value>Stop requested by hosted service: '{0}'.</value>
+  </data>
+  <data name="SetServiceFileAsExecutableStage" xml:space="preserve">
+    <value>Set service file as executable</value>
+  </data>
+  <data name="StartingService" xml:space="preserve">
+    <value>Starting service: '{0}'.</value>
+  </data>
+  <data name="StartServiceFailed" xml:space="preserve">
+    <value>Service '{0}' did not start successfully.</value>
+  </data>
+  <data name="StoppingService" xml:space="preserve">
+    <value>Stopping service: '{0}'.</value>
+  </data>
+  <data name="StopServiceFailed" xml:space="preserve">
+    <value>Service '{0}' did not stop successfully.</value>
+  </data>
+  <data name="UnhandledException" xml:space="preserve">
+    <value>The service threw an unhandled exception: '{0}'.</value>
+  </data>
+  <data name="UninstallingServiceFailed" xml:space="preserve">
+    <value>Uninstalling service '{0}' is completed with errors.</value>
+  </data>
+  <data name="UninstallingServiceIsCompletedWithErrors" xml:space="preserve">
+    <value>Uninstalling service '{0}' is completed with errors: '{1}'.</value>
+  </data>
+  <data name="UninstallingServiceIsStarted" xml:space="preserve">
+    <value>Uninstalling service '{0}' is started.</value>
+  </data>
+  <data name="UninstallingServiceIsSuccessfullyCompleted" xml:space="preserve">
+    <value>Uninstalling service '{0}' is successfully completed.</value>
+  </data>
+</root>
