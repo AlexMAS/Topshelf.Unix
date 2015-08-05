@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+		<id>Topshelf.Unix</id>
+		<version>1.0.0</version>
+		<title>Topshelf.Unix</title>
+		<authors>Alexander Mezhov</authors>
+		<owners>Alexander Mezhov</owners>
+		<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+		<projectUrl>https://github.com/AlexMAS/Topshelf.Unix</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Topshelf extensions for compatibility with Mono/Linux.</description>
+		<copyright>Copyright © Alexander Mezhov 2015</copyright>
+		<tags>Topshelf Mono Linux Unix</tags>
+		<dependencies>
+			<dependency id="Mono.Posix-4.5" version="4.5.0" />
+			<dependency id="Topshelf" version="3.2.0" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin\Release\Topshelf.Unix.*" target="lib\net45" />
+		<file src="**\*.cs" target="src" />
+	</files>
+</package>

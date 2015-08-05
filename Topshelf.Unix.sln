@@ -5,6 +5,11 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Topshelf.Unix", "Topshelf.Unix\Topshelf.Unix.csproj", "{EAB0FF73-C6B0-442A-A750-8694741574DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9C71503B-DEEB-4CCC-84A1-CE9B16587817}"
+	ProjectSection(SolutionItems) = preProject
+		.build\Build.bat = .build\Build.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
