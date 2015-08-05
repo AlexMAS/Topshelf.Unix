@@ -100,7 +100,7 @@ namespace Topshelf
 
 		public static string BuildCommandLine(IDictionary<string, object> commandLineParams)
 		{
-			var commandLine = new StringBuilder();
+			var commandLine = new StringBuilder(" ");
 
 			if (commandLineParams != null)
 			{
