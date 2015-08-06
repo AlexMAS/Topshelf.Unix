@@ -11,17 +11,18 @@
 
 ############### EDIT ME ##################
 MONO_PATH=$(which mono)
-MONO_ARGS=""
-SERVICE_DIR="<ServiceDir>"
-SERVICE_EXE="<ServiceExe>"
-SERVICE_ARGS="<ServiceArgs>"
-SERVICE_USER="<ServiceUser>"
-SERVICE_PID_DIR="<ServicePidDir>"
+MONO_ARGS=''
+SERVICE_DIR='<ServiceDir>'
+SERVICE_EXE='<ServiceExe>'
+SERVICE_ARGS='<ServiceArgs>'
+SERVICE_FIND='<ServiceExe> <ServiceArgs>'
+SERVICE_USER='<ServiceUser>'
+SERVICE_PID_DIR='<ServicePidDir>'
 ############### END EDIT ME ##################
 
 mkdir -p ${SERVICE_PID_DIR}
-SERVICE_PID_FILE=${SERVICE_PID_DIR}/<ServiceName>.pid
-SERVICE_PID_VALUE=`ps auxf | grep "${SERVICE_EXE} ${SERVICE_ARGS}" | grep -v grep | awk '{print $2}'`
+SERVICE_PID_FILE=${SERVICE_PID_DIR}/'<ServiceName>'.pid
+SERVICE_PID_VALUE=`ps auxf | grep -F "${SERVICE_FIND}" | grep -v grep | awk '{print $2}'`
 
 test -x ${MONO_PATH} || { echo "File must be executable: ${MONO_PATH}"; exit 1; }
 test -d ${SERVICE_DIR} || { echo "Service directory not found: ${SERVICE_DIR}"; exit 1; }
@@ -40,7 +41,7 @@ start)
 		install -d --mode=0755 -o ${SERVICE_USER} ${SERVICE_PID_DIR} || return 1
 		start-stop-daemon -d ${SERVICE_DIR} -c ${SERVICE_USER} --start --background --pidfile ${SERVICE_PID_FILE} --exec ${MONO_PATH} -- ${MONO_ARGS} ${SERVICE_EXE} ${SERVICE_ARGS}
 	else
-		echo "${$SERVICE_EXE} already running."
+		echo "${SERVICE_EXE} already running."
 		exit 1
 	fi
 	;;

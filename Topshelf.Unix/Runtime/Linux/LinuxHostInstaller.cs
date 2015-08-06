@@ -205,7 +205,7 @@ namespace Topshelf.Runtime.Linux
 			}
 
 			return new StringBuilder(Resources.LinuxServiceScript)
-				.Replace("<ServiceName>", serviceName.Replace("$", @"\$"))
+				.Replace("<ServiceName>", serviceName)
 				.Replace("<Dependencies>", BuildDependencies(installSettings))
 				.Replace("<DisplayName>", BuildDisplayName(installSettings))
 				.Replace("<Description>", BuildDescription(installSettings))
@@ -275,7 +275,7 @@ namespace Topshelf.Runtime.Linux
 
 		public static string BuildServiceArguments(string arguments)
 		{
-			return (string.IsNullOrWhiteSpace(arguments) ? string.Empty : arguments.Trim()).Replace(@"""", @"\""");
+			return string.IsNullOrWhiteSpace(arguments) ? string.Empty : arguments.Trim();
 		}
 	}
 }
