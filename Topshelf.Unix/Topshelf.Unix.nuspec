@@ -13,6 +13,7 @@
 		<copyright>Copyright © Alexander Mezhov 2015</copyright>
 		<tags>Topshelf Mono Linux Unix</tags>
 		<dependencies>
+			<dependency id="Mono.Helpers" version="1.0.0" />
 			<dependency id="Mono.Posix-4.5" version="4.5.0" />
 			<dependency id="Topshelf" version="3.2.0" />
 		</dependencies>
