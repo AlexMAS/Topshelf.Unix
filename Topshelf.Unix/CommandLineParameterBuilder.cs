@@ -55,7 +55,7 @@ namespace Topshelf
 
 			if (MonoHelper.RunninOnLinux)
 			{
-				_configurator.ApplyCommandLine(MonoHelper.NormalizeCommandLine());
+				_configurator.ApplyCommandLine(TopshelfHelper.NormalizeCommandLine());
 			}
 			else
 			{

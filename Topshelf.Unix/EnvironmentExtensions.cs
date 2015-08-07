@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Topshelf.HostConfigurators;
-
 using Topshelf.Runtime.Linux;
 using Topshelf.Runtime.Windows;
 

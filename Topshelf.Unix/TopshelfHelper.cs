@@ -1,57 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Diagnostics.Linux;
 using System.Linq;
+using System.ServiceProcess;
+using System.ServiceProcess.Linux;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Mono.Unix.Native;
-
 namespace Topshelf
 {
-	internal static class MonoHelper
+	internal static class TopshelfHelper
 	{
-		public static bool RunningAsRoot
+		public static ServiceControllerStatus GetStatus(this LsbLinuxServiceController target)
 		{
-			get
+			var monoProcesses = LinuxProcess.GetProcessesByName("mono");
+
+			foreach (var monoProcess in monoProcesses)
 			{
-				// Root ID is 0
-				return Syscall.getuid() == 0;
+				var arguments = monoProcess.CommandLine;
+
+				if (!string.IsNullOrWhiteSpace(arguments))
+				{
+					var argumentValues = ParseCommandLine(arguments);
+
+					object name;
+					argumentValues.TryGetValue("servicename", out name);
+
+					object instance;
+					argumentValues.TryGetValue("instance", out instance);
+
+					if (!string.IsNullOrEmpty(name as string))
+					{
+						var serviceName = string.IsNullOrEmpty(instance as string) ? (string)name : string.Format("{0}${1}", name, instance);
+
+						if (string.Equals(target.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase))
+						{
+							return ServiceControllerStatus.Running;
+						}
+					}
+				}
 			}
+
+			return ServiceControllerStatus.Stopped;
 		}
 
-		public static bool RunninOnUnix
-		{
-			get
-			{
-				var p = (int)Environment.OSVersion.Platform;
-				return ((p == 4) || (p == 6) || (p == 128));
-			}
-		}
-
-		public static bool RunninOnLinux
-		{
-			get
-			{
-				var p = (int)Environment.OSVersion.Platform;
-				return ((p == 4) || (p == 128));
-			}
-		}
-
-		public static bool RunningOnMono
-		{
-			get
-			{
-				return (Type.GetType("Mono.Runtime") != null);
-			}
-		}
-
-		public static string NormalizeCommandLine()
-		{
-			var commandLineParams = ParseCommandLine(Environment.CommandLine);
-
-			return BuildCommandLine(commandLineParams);
-		}
 
 		public static IDictionary<string, object> ParseCommandLine(string commandLine)
 		{
@@ -143,41 +135,12 @@ namespace Topshelf
 			return commandLine.ToString();
 		}
 
-		public static ProcessResult ExecuteShellCommand(string command, int timeout, params object[] arguments)
+
+		public static string NormalizeCommandLine()
 		{
-			if (string.IsNullOrWhiteSpace(command))
-			{
-				throw new ArgumentNullException("command");
-			}
+			var commandLineParams = ParseCommandLine(Environment.CommandLine);
 
-			var result = new ProcessResult();
-
-			command = string.Format(command, arguments).Trim();
-
-			using (var shellProcess = new Process())
-			{
-				shellProcess.StartInfo.FileName = "sh";
-				shellProcess.StartInfo.Arguments = string.Format("-c '{0}'", command);
-				shellProcess.StartInfo.UseShellExecute = false;
-				shellProcess.StartInfo.RedirectStandardOutput = true;
-				shellProcess.Start();
-
-				if (shellProcess.WaitForExit(timeout))
-				{
-					result.Completed = true;
-					result.ExitCode = shellProcess.ExitCode;
-					result.Output = shellProcess.StandardOutput.ReadToEnd();
-				}
-			}
-
-			return result;
-		}
-
-		public struct ProcessResult
-		{
-			public bool Completed;
-			public int? ExitCode;
-			public string Output;
+			return BuildCommandLine(commandLineParams);
 		}
 	}
 }

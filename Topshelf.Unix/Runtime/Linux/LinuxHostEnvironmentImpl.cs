@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration.Install;
 using System.ServiceProcess;
+using System.ServiceProcess.Linux;
 
 using Topshelf.HostConfigurators;
 using Topshelf.Logging;
@@ -26,21 +27,21 @@ namespace Topshelf.Runtime.Linux
 
 		public bool IsServiceInstalled(string serviceName)
 		{
-			var service = LinuxServiceController.GetService(serviceName);
+			var service = LsbLinuxServiceController.GetService(serviceName);
 
 			return (service != null);
 		}
 
 		public bool IsServiceStopped(string serviceName)
 		{
-			var service = LinuxServiceController.GetService(serviceName);
+			var service = LsbLinuxServiceController.GetService(serviceName);
 
 			return (service == null || service.GetStatus() == ServiceControllerStatus.Stopped);
 		}
 
 		public void StartService(string serviceName, TimeSpan timeout)
 		{
-			var service = LinuxServiceController.GetService(serviceName);
+			var service = LsbLinuxServiceController.GetService(serviceName);
 
 			if (service == null)
 			{
@@ -59,7 +60,7 @@ namespace Topshelf.Runtime.Linux
 
 		public void StopService(string serviceName, TimeSpan timeout)
 		{
-			var service = LinuxServiceController.GetService(serviceName);
+			var service = LsbLinuxServiceController.GetService(serviceName);
 
 			if (service == null)
 			{
@@ -155,7 +156,7 @@ namespace Topshelf.Runtime.Linux
 
 		public string CommandLine
 		{
-			get { return MonoHelper.NormalizeCommandLine(); }
+			get { return TopshelfHelper.NormalizeCommandLine(); }
 		}
 
 		public bool IsAdministrator

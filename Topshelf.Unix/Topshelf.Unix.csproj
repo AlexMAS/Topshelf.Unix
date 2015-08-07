@@ -32,6 +32,10 @@
     <DocumentationFile>bin\Release\Topshelf.Unix.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Helpers.1.0.0\lib\net45\Mono.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Posix, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Posix-4.5.4.5.0\lib\net45\Mono.Posix.dll</HintPath>
       <Private>True</Private>
@@ -57,33 +61,22 @@
     <Compile Include="EnvironmentExtensions.cs" />
     <Compile Include="Runtime\Linux\LinuxHostEnvironmentBuilderImpl.cs" />
     <Compile Include="Runtime\Linux\LinuxHostEnvironmentImpl.cs" />
-    <Compile Include="Runtime\Linux\LinuxHostInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Runtime\Linux\LinuxHostServiceInstallerImpl.cs" />
-    <Compile Include="Runtime\Linux\LinuxProcess.cs" />
-    <Compile Include="Runtime\Linux\LinuxProcessState.cs" />
-    <Compile Include="Runtime\Linux\LinuxServiceController.cs" />
     <Compile Include="Runtime\Linux\LinuxServiceHost.cs" />
-    <Compile Include="Runtime\Linux\LinuxSignalListener.cs" />
-    <Compile Include="Runtime\Linux\TransactionManager.cs" />
-    <Compile Include="MonoHelper.cs" />
+    <Compile Include="TopshelfHelper.cs" />
     <Compile Include="Runtime\Windows\WindowsHostEnvironmentBuilderImpl.cs" />
     <Compile Include="Runtime\Windows\WindowsHostEnvironmentImpl.cs" />
     <Compile Include="Runtime\Windows\WindowsHostServiceInstallerImpl.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Topshelf.Unix.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Runtime\Linux\LinuxServiceScript.txt" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

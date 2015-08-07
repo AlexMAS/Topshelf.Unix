@@ -73,7 +73,7 @@ namespace Topshelf.Runtime
 			arguments["displayname"] = settings.DisplayName;
 			arguments["servicename"] = settings.Name;
 
-			return MonoHelper.BuildCommandLine(arguments);
+			return TopshelfHelper.BuildCommandLine(arguments);
 		}
 
 
