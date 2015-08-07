@@ -58,7 +58,7 @@ sudo mono MyServiceName.exe uninstall
 
 ## Custom Parameters
 
-
+```csharp
 static void Main()
 {
     HostFactory.Run(config =>
