@@ -32,8 +32,8 @@
     <DocumentationFile>bin\Release\Topshelf.Unix.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Helpers, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Helpers.1.2.0\lib\net45\Mono.Helpers.dll</HintPath>
+    <Reference Include="Mono.Helpers, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Helpers.1.2.1\lib\net45\Mono.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Posix, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
