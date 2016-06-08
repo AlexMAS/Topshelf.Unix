@@ -11,199 +11,195 @@ using Topshelf.Properties;
 
 namespace Topshelf.Runtime.Linux
 {
-	internal sealed class LinuxServiceHost : Host, HostControl, IDisposable
-	{
-		public LinuxServiceHost(HostSettings settings, ServiceHandle serviceHandle)
-		{
-			if (settings == null)
-			{
-				throw new ArgumentNullException("settings");
-			}
+    internal sealed class LinuxServiceHost : Host, HostControl, IDisposable
+    {
+        public LinuxServiceHost(HostSettings settings, ServiceHandle serviceHandle)
+        {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
 
-			if (serviceHandle == null)
-			{
-				throw new ArgumentNullException("serviceHandle");
-			}
+            if (serviceHandle == null)
+            {
+                throw new ArgumentNullException(nameof(serviceHandle));
+            }
 
-			_settings = settings;
-			_serviceHandle = serviceHandle;
+            _settings = settings;
+            _serviceHandle = serviceHandle;
 
-			_logWriter = HostLogger.Get<LinuxServiceHost>();
-			_stopSignal = new ManualResetEvent(false);
-			_signalListener = new LinuxSignalListener();
-			_signalListener.Subscribe(Signum.SIGINT, SetStopSignal);
-			_signalListener.Subscribe(Signum.SIGTERM, SetStopSignal);
-		}
-
-
-		private readonly HostSettings _settings;
-		private readonly ServiceHandle _serviceHandle;
-		private readonly LogWriter _logWriter;
-		private readonly ManualResetEvent _stopSignal;
-		private readonly LinuxSignalListener _signalListener;
+            _logWriter = HostLogger.Get<LinuxServiceHost>();
+            _stopSignal = new ManualResetEvent(false);
+            _signalListener = new LinuxSignalListener();
+            _signalListener.Subscribe(Signum.SIGINT, SetStopSignal);
+            _signalListener.Subscribe(Signum.SIGTERM, SetStopSignal);
+        }
 
 
-		private TopshelfExitCode _exitCode;
-
-		public TopshelfExitCode Run()
-		{
-			AppDomain.CurrentDomain.UnhandledException += CatchUnhandledException;
-			Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-
-			_exitCode = TopshelfExitCode.Ok;
-
-			_signalListener.Listen();
-
-			var started = false;
-
-			try
-			{
-				StartService();
-				started = true;
-
-				WaitStopSignal();
-			}
-			catch (Exception error)
-			{
-				_logWriter.Fatal(error);
-
-				_exitCode = TopshelfExitCode.AbnormalExit;
-			}
-			finally
-			{
-				if (started)
-				{
-					StopService();
-				}
-
-				HostLogger.Shutdown();
-			}
-
-			return _exitCode;
-		}
+        private readonly HostSettings _settings;
+        private readonly ServiceHandle _serviceHandle;
+        private readonly LogWriter _logWriter;
+        private readonly ManualResetEvent _stopSignal;
+        private readonly LinuxSignalListener _signalListener;
 
 
-		void HostControl.RequestAdditionalTime(TimeSpan timeRemaining)
-		{
-			throw new NotSupportedException();
-		}
+        private TopshelfExitCode _exitCode;
 
-		void HostControl.Restart()
-		{
-			throw new NotSupportedException();
-		}
+        public TopshelfExitCode Run()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CatchUnhandledException;
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 
-		void HostControl.Stop()
-		{
-			_logWriter.DebugFormat(Resources.ServiceStopRequested, _settings.ServiceName);
+            _exitCode = TopshelfExitCode.Ok;
 
-			SetStopSignal();
-		}
+            _signalListener.Listen();
 
+            var started = false;
 
-		private void StartService()
-		{
-			_logWriter.InfoFormat(Resources.StartingService, _settings.ServiceName);
+            try
+            {
+                StartService();
+                started = true;
 
-			try
-			{
-				if (!_serviceHandle.Start(this))
-				{
-					throw new TopshelfException(string.Format(Resources.ServiceDidntStartSuccessfully, _settings.ServiceName));
-				}
-			}
-			catch (Exception error)
-			{
-				_logWriter.Fatal(string.Format(Resources.StartServiceFailed, _settings.ServiceName), error);
+                WaitStopSignal();
+            }
+            catch (Exception error)
+            {
+                _logWriter.Fatal(error);
 
-				throw;
-			}
+                _exitCode = TopshelfExitCode.AbnormalExit;
+            }
+            finally
+            {
+                if (started)
+                {
+                    StopService();
+                }
 
-			_logWriter.InfoFormat(Resources.ServiceStarted, _settings.ServiceName);
-		}
+                HostLogger.Shutdown();
+            }
 
-		private void StopService()
-		{
-			_logWriter.InfoFormat(Resources.StoppingService, _settings.ServiceName);
-
-			try
-			{
-				if (!_serviceHandle.Stop(this))
-				{
-					throw new TopshelfException(string.Format(Resources.ServiceDidntStopSuccessfully, _settings.ServiceName));
-				}
-			}
-			catch (Exception error)
-			{
-				_logWriter.Fatal(string.Format(Resources.StopServiceFailed, _settings.ServiceName), error);
-			}
-
-			_logWriter.InfoFormat(Resources.ServiceStopped, _settings.ServiceName);
-		}
+            return _exitCode;
+        }
 
 
-		private void WaitStopSignal()
-		{
-			_stopSignal.WaitOne();
-		}
+        void HostControl.RequestAdditionalTime(TimeSpan timeRemaining)
+        {
+            throw new NotSupportedException();
+        }
 
-		private void SetStopSignal()
-		{
-			_stopSignal.Set();
-		}
+        void HostControl.Restart()
+        {
+            throw new NotSupportedException();
+        }
 
+        void HostControl.Stop()
+        {
+            _logWriter.DebugFormat(Resources.ServiceStopRequested, _settings.ServiceName);
 
-		private int _deadThread;
-
-		private void CatchUnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			_logWriter.Fatal(string.Format(Resources.UnhandledException, _settings.ServiceName), (Exception)e.ExceptionObject);
-
-			HostLogger.Shutdown();
-
-			if (e.IsTerminating)
-			{
-				_exitCode = TopshelfExitCode.UnhandledServiceException;
-
-				SetStopSignal();
-
-				// Author Topshelf: it isn't likely that a TPL thread should land here, but if it does let's no block it
-				if (!Task.CurrentId.HasValue)
-				{
-					// Author Topshelf: this is evil, but perhaps a good thing to let us clean up properly
-
-					var deadThreadId = Interlocked.Increment(ref _deadThread);
-
-					Thread.CurrentThread.IsBackground = true;
-					Thread.CurrentThread.Name = "Unhandled Exception " + deadThreadId;
-
-					while (true)
-					{
-						Thread.Sleep(TimeSpan.FromHours(1));
-					}
-				}
-			}
-		}
+            SetStopSignal();
+        }
 
 
-		private bool _disposed;
+        private void StartService()
+        {
+            _logWriter.InfoFormat(Resources.StartingService, _settings.ServiceName);
 
-		public void Dispose()
-		{
-			if (!_disposed)
-			{
-				_signalListener.Dispose();
+            try
+            {
+                if (!_serviceHandle.Start(this))
+                {
+                    throw new TopshelfException(string.Format(Resources.ServiceDidntStartSuccessfully, _settings.ServiceName));
+                }
+            }
+            catch (Exception error)
+            {
+                _logWriter.Fatal(string.Format(Resources.StartServiceFailed, _settings.ServiceName), error);
 
-				if (_serviceHandle != null)
-				{
-					_serviceHandle.Dispose();
-				}
+                throw;
+            }
 
-				_stopSignal.Close();
-				_stopSignal.Dispose();
+            _logWriter.InfoFormat(Resources.ServiceStarted, _settings.ServiceName);
+        }
 
-				_disposed = true;
-			}
-		}
-	}
+        private void StopService()
+        {
+            _logWriter.InfoFormat(Resources.StoppingService, _settings.ServiceName);
+
+            try
+            {
+                if (!_serviceHandle.Stop(this))
+                {
+                    throw new TopshelfException(string.Format(Resources.ServiceDidntStopSuccessfully, _settings.ServiceName));
+                }
+            }
+            catch (Exception error)
+            {
+                _logWriter.Fatal(string.Format(Resources.StopServiceFailed, _settings.ServiceName), error);
+            }
+
+            _logWriter.InfoFormat(Resources.ServiceStopped, _settings.ServiceName);
+        }
+
+
+        private void WaitStopSignal()
+        {
+            _stopSignal.WaitOne();
+        }
+
+        private void SetStopSignal()
+        {
+            _stopSignal.Set();
+        }
+
+
+        private int _deadThread;
+
+        private void CatchUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            _logWriter.Fatal(string.Format(Resources.UnhandledException, _settings.ServiceName), (Exception)e.ExceptionObject);
+
+            HostLogger.Shutdown();
+
+            if (e.IsTerminating)
+            {
+                _exitCode = TopshelfExitCode.UnhandledServiceException;
+
+                SetStopSignal();
+
+                // Author Topshelf: it isn't likely that a TPL thread should land here, but if it does let's no block it
+                if (!Task.CurrentId.HasValue)
+                {
+                    // Author Topshelf: this is evil, but perhaps a good thing to let us clean up properly
+
+                    var deadThreadId = Interlocked.Increment(ref _deadThread);
+
+                    Thread.CurrentThread.IsBackground = true;
+                    Thread.CurrentThread.Name = "Unhandled Exception " + deadThreadId;
+
+                    while (true)
+                    {
+                        Thread.Sleep(TimeSpan.FromHours(1));
+                    }
+                }
+            }
+        }
+
+
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _signalListener.Dispose();
+                _serviceHandle?.Dispose();
+
+                _stopSignal.Close();
+                _stopSignal.Dispose();
+
+                _disposed = true;
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-call "%VS120COMNTOOLS%VsDevCmd.bat"
+call "%VS140COMNTOOLS%VsDevCmd.bat"
 nuget.exe restore "..\Topshelf.Unix.sln"
 msbuild "..\Topshelf.Unix.sln" /t:Clean /p:Configuration=Release 
 msbuild "..\Topshelf.Unix.sln" /p:Configuration=Release 

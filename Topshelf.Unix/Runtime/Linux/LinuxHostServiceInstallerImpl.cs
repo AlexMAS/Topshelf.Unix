@@ -7,56 +7,56 @@ using Topshelf.Properties;
 
 namespace Topshelf.Runtime.Linux
 {
-	internal sealed class LinuxHostServiceInstallerImpl : BaseHostServiceInstallerImpl
-	{
-		protected override Installer CreateInstaller(InstallHostSettings settings, string commandLine)
-		{
-			return new LsbLinuxHostInstaller(CreateServiceSettings(settings, commandLine), null, CreateServiceLogWriter());
-		}
+    internal sealed class LinuxHostServiceInstallerImpl : BaseHostServiceInstallerImpl
+    {
+        protected override Installer CreateInstaller(InstallHostSettings settings, string commandLine)
+        {
+            return new LsbLinuxHostInstaller(CreateServiceSettings(settings, commandLine), null, CreateServiceLogWriter());
+        }
 
-		protected override Installer CreateUninstaller(HostSettings settings, string commandLine)
-		{
-			return new LsbLinuxHostInstaller(CreateServiceSettings(settings, commandLine), null, CreateServiceLogWriter());
-		}
+        protected override Installer CreateUninstaller(HostSettings settings, string commandLine)
+        {
+            return new LsbLinuxHostInstaller(CreateServiceSettings(settings, commandLine), null, CreateServiceLogWriter());
+        }
 
-		private static LinuxServiceSettings CreateServiceSettings(HostSettings settings, string commandLine)
-		{
-			var currentAssembly = Assembly.GetEntryAssembly();
+        private static LinuxServiceSettings CreateServiceSettings(HostSettings settings, string commandLine)
+        {
+            var currentAssembly = Assembly.GetEntryAssembly();
 
-			if (currentAssembly == null)
-			{
-				throw new InstallException(Resources.ServiceMustBeExecutableFile);
-			}
+            if (currentAssembly == null)
+            {
+                throw new InstallException(Resources.ServiceMustBeExecutableFile);
+            }
 
-			var result = new LinuxServiceSettings
-			{
-				ServiceName = settings.ServiceName,
-				DisplayName = settings.DisplayName,
-				Description = settings.Description,
-				ServiceExe = currentAssembly.Location,
-				ServiceArgs = commandLine
-			};
+            var result = new LinuxServiceSettings
+            {
+                ServiceName = settings.ServiceName,
+                DisplayName = settings.DisplayName,
+                Description = settings.Description,
+                ServiceExe = currentAssembly.Location,
+                ServiceArgs = commandLine
+            };
 
-			var installSettings = settings as InstallHostSettings;
+            var installSettings = settings as InstallHostSettings;
 
-			if (installSettings != null)
-			{
-				result.Username = installSettings.Username;
-				result.Dependencies = installSettings.Dependencies;
-			}
+            if (installSettings != null)
+            {
+                result.Username = installSettings.Credentials?.Username;
+                result.Dependencies = installSettings.Dependencies;
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		private static LinuxServiceLogWriter CreateServiceLogWriter()
-		{
-			var topshelfLogWriter = HostLogger.Get<LsbLinuxHostInstaller>();
+        private static LinuxServiceLogWriter CreateServiceLogWriter()
+        {
+            var topshelfLogWriter = HostLogger.Get<LsbLinuxHostInstaller>();
 
-			return new LinuxServiceLogWriter(
-				topshelfLogWriter.DebugFormat,
-				topshelfLogWriter.InfoFormat,
-				topshelfLogWriter.ErrorFormat,
-				topshelfLogWriter.FatalFormat);
-		}
-	}
+            return new LinuxServiceLogWriter(
+                topshelfLogWriter.DebugFormat,
+                topshelfLogWriter.InfoFormat,
+                topshelfLogWriter.ErrorFormat,
+                topshelfLogWriter.FatalFormat);
+        }
+    }
 }
