@@ -31,7 +31,7 @@ namespace Topshelf
 
                     if (!string.IsNullOrEmpty(name as string))
                     {
-                        var serviceName = string.IsNullOrEmpty(instance as string) ? (string)name : $"{name}${instance}";
+                        var serviceName = string.IsNullOrEmpty(instance as string) ? (string)name : $"{name}@{instance}";
 
                         if (string.Equals(target.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase))
                         {

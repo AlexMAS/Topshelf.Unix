@@ -28,9 +28,16 @@ namespace Topshelf.Runtime.Linux
                 throw new InstallException(Resources.ServiceMustBeExecutableFile);
             }
 
+            var serviceName = settings.Name;
+
+            if (!string.IsNullOrEmpty(settings.InstanceName))
+            {
+                serviceName += "@" + settings.InstanceName;
+            }
+
             var result = new LinuxServiceSettings
             {
-                ServiceName = settings.ServiceName,
+                ServiceName = serviceName,
                 DisplayName = settings.DisplayName,
                 Description = settings.Description,
                 ServiceExe = currentAssembly.Location,
